@@ -10,33 +10,76 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VeiculosRouteImport } from './routes/veiculos'
+import { Route as VenderRouteImport } from './routes/vender'
+import { Route as VeiculosIndexRouteImport } from './routes/veiculos.index'
+import { Route as VeiculosSlugRouteImport } from './routes/veiculos.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VeiculosRoute = VeiculosRouteImport.update({
+  id: '/veiculos',
+  path: '/veiculos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VenderRoute = VenderRouteImport.update({
+  id: '/vender',
+  path: '/vender',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VeiculosIndexRoute = VeiculosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => VeiculosRoute,
+} as any)
+const VeiculosSlugRoute = VeiculosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => VeiculosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/veiculos': typeof VeiculosRouteWithChildren
+  '/vender': typeof VenderRoute
+  '/veiculos/$slug': typeof VeiculosSlugRoute
+  '/veiculos/': typeof VeiculosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/vender': typeof VenderRoute
+  '/veiculos/$slug': typeof VeiculosSlugRoute
+  '/veiculos': typeof VeiculosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/veiculos': typeof VeiculosRouteWithChildren
+  '/vender': typeof VenderRoute
+  '/veiculos/$slug': typeof VeiculosSlugRoute
+  '/veiculos/': typeof VeiculosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/veiculos' | '/vender' | '/veiculos/$slug' | '/veiculos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/vender' | '/veiculos/$slug' | '/veiculos'
+  id:
+    | '__root__'
+    | '/'
+    | '/veiculos'
+    | '/vender'
+    | '/veiculos/$slug'
+    | '/veiculos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  VeiculosRoute: typeof VeiculosRouteWithChildren
+  VenderRoute: typeof VenderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +91,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/veiculos': {
+      id: '/veiculos'
+      path: '/veiculos'
+      fullPath: '/veiculos'
+      preLoaderRoute: typeof VeiculosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vender': {
+      id: '/vender'
+      path: '/vender'
+      fullPath: '/vender'
+      preLoaderRoute: typeof VenderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/veiculos/': {
+      id: '/veiculos/'
+      path: '/'
+      fullPath: '/veiculos/'
+      preLoaderRoute: typeof VeiculosIndexRouteImport
+      parentRoute: typeof VeiculosRoute
+    }
+    '/veiculos/$slug': {
+      id: '/veiculos/$slug'
+      path: '/$slug'
+      fullPath: '/veiculos/$slug'
+      preLoaderRoute: typeof VeiculosSlugRouteImport
+      parentRoute: typeof VeiculosRoute
+    }
   }
 }
 
+interface VeiculosRouteChildren {
+  VeiculosSlugRoute: typeof VeiculosSlugRoute
+  VeiculosIndexRoute: typeof VeiculosIndexRoute
+}
+
+const VeiculosRouteChildren: VeiculosRouteChildren = {
+  VeiculosSlugRoute: VeiculosSlugRoute,
+  VeiculosIndexRoute: VeiculosIndexRoute,
+}
+
+const VeiculosRouteWithChildren = VeiculosRoute._addFileChildren(
+  VeiculosRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  VeiculosRoute: VeiculosRouteWithChildren,
+  VenderRoute: VenderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
