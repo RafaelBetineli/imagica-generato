@@ -28,7 +28,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
           <div className="mt-6 flex items-end justify-between gap-4 border-t border-border pt-4">
             <div><p className="font-mono text-[9px] uppercase text-muted-foreground">Valor</p><p className="mt-1 text-sm text-foreground">Mediante consulta</p></div>
             <Button asChild variant="ghost" className="group/link rounded-none px-0 text-primary hover:bg-transparent hover:text-primary">
-              <Link to="/veiculos/$slug" params={{ slug: vehicle.slug }}>Ver detalhes <ArrowUpRight className="transition-transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1" /></Link>
+              <Link to="/veiculos/$slug" params={{ slug: vehicle.slug }} search={{ cat: "todos", sort: "ano" }}>Ver detalhes <ArrowUpRight className="transition-transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1" /></Link>
             </Button>
           </div>
         </div>

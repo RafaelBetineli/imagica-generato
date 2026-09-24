@@ -30,9 +30,9 @@ const VeiculosIndexRoute = VeiculosIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const VeiculosSlugRoute = VeiculosSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => VeiculosRoute,
+  id: '/veiculos/$slug',
+  path: '/veiculos/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -65,6 +65,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   VenderRoute: typeof VenderRoute
+  VeiculosSlugRoute: typeof VeiculosSlugRoute
   VeiculosIndexRoute: typeof VeiculosIndexRoute
 }
 
@@ -93,10 +94,10 @@ declare module '@tanstack/react-router' {
     }
     '/veiculos/$slug': {
       id: '/veiculos/$slug'
-      path: '/$slug'
+      path: '/veiculos/$slug'
       fullPath: '/veiculos/$slug'
       preLoaderRoute: typeof VeiculosSlugRouteImport
-      parentRoute: typeof VeiculosRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -104,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   VenderRoute: VenderRoute,
+  VeiculosSlugRoute: VeiculosSlugRoute,
   VeiculosIndexRoute: VeiculosIndexRoute,
 }
 export const routeTree = rootRouteImport
