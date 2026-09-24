@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as VeiculosRouteImport } from './routes/veiculos'
 import { Route as VenderRouteImport } from './routes/vender'
+import { Route as VeiculosIndexRouteImport } from './routes/veiculos.index'
 import { Route as VeiculosSlugRouteImport } from './routes/veiculos.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -19,14 +19,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VeiculosRoute = VeiculosRouteImport.update({
-  id: '/veiculos',
-  path: '/veiculos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const VenderRoute = VenderRouteImport.update({
   id: '/vender',
   path: '/vender',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VeiculosIndexRoute = VeiculosIndexRouteImport.update({
+  id: '/veiculos/',
+  path: '/veiculos/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VeiculosSlugRoute = VeiculosSlugRouteImport.update({
@@ -37,35 +37,35 @@ const VeiculosSlugRoute = VeiculosSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/veiculos': typeof VeiculosRouteWithChildren
   '/vender': typeof VenderRoute
   '/veiculos/$slug': typeof VeiculosSlugRoute
+  '/veiculos/': typeof VeiculosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/veiculos': typeof VeiculosRouteWithChildren
   '/vender': typeof VenderRoute
   '/veiculos/$slug': typeof VeiculosSlugRoute
+  '/veiculos': typeof VeiculosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/veiculos': typeof VeiculosRouteWithChildren
   '/vender': typeof VenderRoute
   '/veiculos/$slug': typeof VeiculosSlugRoute
+  '/veiculos/': typeof VeiculosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/veiculos' | '/vender' | '/veiculos/$slug'
+  fullPaths: '/' | '/vender' | '/veiculos/$slug' | '/veiculos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/veiculos' | '/vender' | '/veiculos/$slug'
-  id: '__root__' | '/' | '/veiculos' | '/vender' | '/veiculos/$slug'
+  to: '/' | '/vender' | '/veiculos/$slug' | '/veiculos'
+  id: '__root__' | '/' | '/vender' | '/veiculos/$slug' | '/veiculos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  VeiculosRoute: typeof VeiculosRouteWithChildren
   VenderRoute: typeof VenderRoute
+  VeiculosIndexRoute: typeof VeiculosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -77,18 +77,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/veiculos': {
-      id: '/veiculos'
-      path: '/veiculos'
-      fullPath: '/veiculos'
-      preLoaderRoute: typeof VeiculosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/vender': {
       id: '/vender'
       path: '/vender'
       fullPath: '/vender'
       preLoaderRoute: typeof VenderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/veiculos/': {
+      id: '/veiculos/'
+      path: '/veiculos'
+      fullPath: '/veiculos/'
+      preLoaderRoute: typeof VeiculosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/veiculos/$slug': {
@@ -101,22 +101,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface VeiculosRouteChildren {
-  VeiculosSlugRoute: typeof VeiculosSlugRoute
-}
-
-const VeiculosRouteChildren: VeiculosRouteChildren = {
-  VeiculosSlugRoute: VeiculosSlugRoute,
-}
-
-const VeiculosRouteWithChildren = VeiculosRoute._addFileChildren(
-  VeiculosRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  VeiculosRoute: VeiculosRouteWithChildren,
   VenderRoute: VenderRoute,
+  VeiculosIndexRoute: VeiculosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
