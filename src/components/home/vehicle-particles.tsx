@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 type Particle = { x: number; y: number; tx: number; ty: number; color: string; size: number; vx: number; vy: number };
 
-type Props = { image?: string; active: boolean; paused: boolean; accent: string };
+type Props = { image: string | undefined; active: boolean; paused: boolean; accent: string };
 
 export function VehicleParticles({ image, active, paused, accent }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

@@ -71,7 +71,7 @@ export function HomeExperience() {
     let splitter: ReturnType<typeof splitText> | undefined;
     if (titleRef.current) {
       splitter = splitText(titleRef.current, { chars: { wrap: "clip" } });
-      animate(splitter.chars, { y: ["110%", "0%"], opacity: [0, 1], delay: (_el, index) => index * 42, duration: 900, ease: "out(4)" });
+      animate(splitter.chars, { y: ["110%", "0%"], opacity: [0, 1], delay: (_el, index) => (index ?? 0) * 42, duration: 900, ease: "out(4)" });
     }
     return () => {
       cancelAnimationFrame(raf);
