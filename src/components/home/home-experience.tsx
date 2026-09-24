@@ -89,7 +89,7 @@ export function HomeExperience() {
   }, []);
 
   const opacity = (start: number, end: number, feather = 0.025) => {
-    const enter = Math.min(1, Math.max(0, (progress - start) / feather));
+    const enter = start <= 0 ? 1 : Math.min(1, Math.max(0, (progress - start) / feather));
     const exit = Math.min(1, Math.max(0, (end - progress) / feather));
     return Math.min(enter, exit);
   };
