@@ -1,6 +1,6 @@
 import { ClientOnly, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Instagram, MessageCircle, ShieldCheck } from "lucide-react";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { animate, createTimeline, splitText } from "animejs";
 import Lenis from "lenis";
 import { Button } from "@/components/ui/button";
@@ -71,7 +71,7 @@ export function HomeExperience() {
     let splitter: ReturnType<typeof splitText> | undefined;
     if (titleRef.current) {
       splitter = splitText(titleRef.current, { chars: { wrap: "clip" } });
-      animate(splitter.chars, { y: ["110%", "0%"], opacity: [0, 1], delay: (_el, index) => (index ?? 0) * 42, duration: 900, ease: "out(4)" });
+      animate(splitter.chars, { y: ["70%", "0%"], delay: (_el, index) => (index ?? 0) * 42, duration: 900, ease: "out(4)" });
     }
     return () => {
       cancelAnimationFrame(raf);
@@ -177,11 +177,16 @@ export function HomeExperience() {
           <Button asChild size="icon" className="rounded-none"><a href={generalWhatsAppLink} target="_blank" rel="noreferrer" aria-label="WhatsApp"><MessageCircle /></a></Button>
         </div>
 
+        <div className="fixed bottom-5 left-5 z-30 flex gap-2 sm:left-8">
+          <Button asChild size="sm" className="rounded-none"><Link to="/veiculos" search={{ cat: "todos", sort: "ano" }}>Ver veículos <ArrowRight /></Link></Button>
+          <Button asChild variant="outline" size="sm" className="rounded-none"><a href={generalWhatsAppLink} target="_blank" rel="noreferrer"><MessageCircle /><span className="hidden sm:inline">WhatsApp</span></a></Button>
+        </div>
+
         <nav aria-label="Capítulos da experiência" className="fixed right-5 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-end gap-4 lg:flex">
           {scenes.map((scene) => <button key={scene.label} onClick={() => jump(scene.at)} className={`group flex items-center gap-3 font-mono text-[8px] uppercase transition-colors ${Math.abs(progress - scene.at) < 0.11 ? "text-primary" : "text-muted-foreground"}`}><span className="opacity-0 transition-opacity group-hover:opacity-100">{scene.label}</span><span className="block h-px w-5 bg-current" /></button>)}
         </nav>
 
-        {progress < 0.18 && <button onClick={() => jump(0.35)} className="fixed bottom-6 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2 font-mono text-[8px] uppercase text-muted-foreground"><span>Role para explorar</span><ArrowDown className="size-4 animate-bounce text-primary" /></button>}
+        {progress < 0.18 && <button onClick={() => jump(0.35)} className="fixed bottom-6 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[8px] uppercase text-muted-foreground sm:flex"><span>Role para explorar</span><ArrowDown className="size-4 animate-bounce text-primary" /></button>}
         <div className="fixed inset-x-0 bottom-0 z-30 h-px bg-border"><span className="block h-full origin-left bg-primary" style={{ transform: `scaleX(${progress})` }} /></div>
         <div className="home-cursor pointer-events-none fixed z-[70] hidden size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary lg:block" style={{ left: cursor.x, top: cursor.y }} aria-hidden />
       </div>
