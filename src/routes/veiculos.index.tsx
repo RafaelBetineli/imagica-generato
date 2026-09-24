@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { vehicles } from "@/data/vehicles";
 
 const searchSchema = z.object({ cat: z.enum(["todos", "esportivos", "suvs", "blindados"]).catch("todos"), sort: z.enum(["ano", "km"]).catch("ano") });
-export const Route = createFileRoute("/veiculos")({
+export const Route = createFileRoute("/veiculos/")({
   validateSearch: (search) => searchSchema.parse(search),
   head: () => ({ meta: [{ title: "Veículos disponíveis — GETCARS" }, { name: "description", content: "Conheça a curadoria GETCARS de veículos premium, exclusivos e blindados." }, { property: "og:title", content: "Veículos disponíveis — GETCARS" }, { property: "og:description", content: "Catálogo de veículos premium, exclusivos e blindados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: VehiclesPage,

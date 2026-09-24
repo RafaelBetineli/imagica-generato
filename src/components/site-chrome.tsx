@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { generalWhatsAppLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-const nav = [{ label: "Veículos", to: "/veiculos" as const }, { label: "Vender", to: "/vender" as const }];
+const nav = [{ label: "Vender", to: "/vender" as const }];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -27,6 +27,7 @@ export function SiteHeader() {
         <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:px-12">
           <Link to="/" aria-label="GETCARS — início"><BrandLogo compact /></Link>
           <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
+            <Link to="/veiculos" search={{ cat: "todos", sort: "ano" }} activeProps={{ className: "text-primary" }} className="font-mono text-[11px] uppercase text-muted-foreground transition-colors hover:text-foreground">Veículos</Link>
             {nav.map((item) => <Link key={item.to} to={item.to} activeProps={{ className: "text-primary" }} className="font-mono text-[11px] uppercase text-muted-foreground transition-colors hover:text-foreground">{item.label}</Link>)}
             <a href={generalWhatsAppLink} target="_blank" rel="noreferrer" className="font-mono text-[11px] uppercase text-muted-foreground transition-colors hover:text-foreground">Contato</a>
           </nav>
@@ -40,6 +41,7 @@ export function SiteHeader() {
         {open && <motion.div initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-40 flex flex-col justify-center bg-background px-8 pt-20 md:hidden">
           <nav className="space-y-2" aria-label="Navegação móvel">
             <Link to="/" className="block border-b border-border py-5 font-display text-5xl uppercase">Início</Link>
+            <Link to="/veiculos" search={{ cat: "todos", sort: "ano" }} className="block border-b border-border py-5 font-display text-5xl uppercase">Veículos</Link>
             {nav.map((item) => <Link key={item.to} to={item.to} className="block border-b border-border py-5 font-display text-5xl uppercase">{item.label}</Link>)}
             <a href={generalWhatsAppLink} target="_blank" rel="noreferrer" className="block border-b border-border py-5 font-display text-5xl uppercase">Contato</a>
           </nav>
@@ -50,7 +52,7 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
-  return <footer className="border-t border-border bg-card px-5 py-12 sm:px-8 lg:px-12"><div className="mx-auto grid max-w-[1500px] gap-10 md:grid-cols-[1fr_auto_auto]"><BrandLogo compact /><nav className="flex flex-col gap-3 font-mono text-[10px] uppercase text-muted-foreground"><Link to="/veiculos">Veículos</Link><Link to="/vender">Vender</Link><a href={generalWhatsAppLink} target="_blank" rel="noreferrer">WhatsApp</a><a href="https://instagram.com/getcars_" target="_blank" rel="noreferrer">Instagram @getcars_</a></nav><div className="font-mono text-[10px] uppercase leading-7 text-muted-foreground"><p>São Paulo, Brasil</p><p>© 2026 GETCARS</p></div></div></footer>;
+  return <footer className="border-t border-border bg-card px-5 py-12 sm:px-8 lg:px-12"><div className="mx-auto grid max-w-[1500px] gap-10 md:grid-cols-[1fr_auto_auto]"><BrandLogo compact /><nav className="flex flex-col gap-3 font-mono text-[10px] uppercase text-muted-foreground"><Link to="/veiculos" search={{ cat: "todos", sort: "ano" }}>Veículos</Link><Link to="/vender">Vender</Link><a href={generalWhatsAppLink} target="_blank" rel="noreferrer">WhatsApp</a><a href="https://instagram.com/getcars_" target="_blank" rel="noreferrer">Instagram @getcars_</a></nav><div className="font-mono text-[10px] uppercase leading-7 text-muted-foreground"><p>São Paulo, Brasil</p><p>© 2026 GETCARS</p></div></div></footer>;
 }
 
 export function FloatingWhatsApp() {
